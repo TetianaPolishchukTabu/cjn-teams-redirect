@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CJN Project Center</title>
+<style>
+:root{font-family:Segoe UI,Arial,sans-serif;color:#0b2545}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f5f7fb}.panel{width:min(440px,88vw);text-align:center;padding:32px 24px;border-radius:15px;background:white;box-shadow:0 4px 24px #0b25451a}h1{font-size:23px;margin:0 0 10px}p{line-height:1.5;color:#486077}button{padding:13px 25px;border:0;background:#0066b3;color:white;border-radius:8px;font-size:16px;cursor:pointer}button:focus{outline:3px solid #75b9f6}small{display:block;margin-top:20px;color:#69788a}
+</style>
+<script src="https://res.cdn.office.net/teams-js/2.0.0/js/MicrosoftTeams.min.js"></script>
+</head>
+<body><main class="panel"><h1>CJN Project Center</h1><p id="status">Opening the project portal in your browser…</p><button id="open" type="button">Open CJN Project Center</button><small>If the portal did not open automatically, select the button.</small></main>
+<script>
+(function(){
+'use strict';
+const URL='https://cjobnikolayev.sharepoint.com/sites/CJN-Project-center';
+const status=document.getElementById('status');
+async function openPortal(){
+  try{
+    if(window.microsoftTeams && window.microsoftTeams.app){
+      await window.microsoftTeams.app.initialize();
+      await window.microsoftTeams.app.openLink(URL);
+      status.textContent='The portal was requested. If nothing happened, use the button.';
+      return;
+    }
+  }catch(e){ console.warn('Teams link handoff unavailable:',e); }
+  status.textContent='Automatic opening was blocked. Use the button below.';
+}
+document.getElementById('open').addEventListener('click',async function(){
+ try{
+   if(window.microsoftTeams && window.microsoftTeams.app){
+     await window.microsoftTeams.app.initialize();
+     await window.microsoftTeams.app.openLink(URL);return;
+   }
+ }catch(e){console.warn(e)}
+ window.open(URL,'_blank','noopener,noreferrer');
+});
+openPortal();
+})();
+</script></body></html>
